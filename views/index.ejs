@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>todo list</h1>
+    <form action="/create" method="POST">
+        <input type="text" name="todoContent">
+        <select name="categoryId">
+            <% categories.map((category) =>{ %>
+                <option value="<%= category.id %>"><%= category.name %> </option>
+            <% }); %>  
+        </select>
+        <input type="submit" value="作成">
+    </form>
+    <a href="/categories">カテゴリー管理画面</a>
+    <h2>やること</h2>
+    <ul>
+        <% categories.map((category) =>{ %>
+        <li><%= category.name %> </li>
+        <ul>
+            <% if(category.todos){ %> 
+                <% let todos = category.todos.split(','); %>
+                <% todos.map((todo) => { %>
+                   <li><%= todo %></li>
+                <% }); %>
+            <% } %>
+        </ul>
+        <% }) %>
+    </ul>
+</body>
+</html>

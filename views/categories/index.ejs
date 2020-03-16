@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カテゴリー管理画面</title>
+</head>
+<body>
+    <h1>カテゴリ新規作成</h1>
+        <form action="/categories/create" method="POST">
+            <input type="text" name="categoryname">
+            <input type="submit" value="作成">
+        </form>
+    <h1>カテゴリー一覧</h1>
+    <ul>
+        <% categories.map((category) => { %>
+            <li>
+                <%= category.name %>
+                <%= category.id %>
+                <a href="/categories/edit/<%= category.id %>">編集へ</a>
+                <form action="/categories/delete/<%= category.id %>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="submit" value="削除">
+                </form>
+            </li> 
+        <% }) %> 
+    </ul>
+    <a href="/">一覧へ戻る</a>
+</body>
+</html>
