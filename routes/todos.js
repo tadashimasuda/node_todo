@@ -1,80 +1,24 @@
 const express = require('express');
 const router = express.Router();
 
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'root',
-  database: 'node_todo'
-});
-
+const todosController =require('../controllers/todosController');
 ///Todo
 //一覧表示
-router.get('/', (req, res) => {
-    connection.query(
-      'SELECT categories.*, GROUP_CONCAT(todos.content) AS todos FROM categories LEFT JOIN todos ON categories.id = todos.category_id GROUP BY categories.id',
-      (error, results) => {
-        console.log(error);
-        res.render('index.ejs', { categories: results });
-      }
-    );
-  });
+router.get('/', todosController.index);
   
   //新規作成
-  router.post('/create', (req, res) => {
-    connection.query(
-      'INSERT INTO todos (content,category_id) VALUES (?,?)',
-      [req.body.todoContent, req.body.categoryId],
-      (error, results) => {
-        console.log(error);
-        res.redirect('/');
-      }
-    );
-  });
+  router.post('/create',todosController.create);
   
   //編集
-  router.get('/edit/:id', (req, res) => {
-    connection.query(
-      'SELECT * FROM todos WHERE id =?',
-      [req.params.id],
-      (error, results) => {
-        res.render('edit.ejs', { todo: results[0] });
-      }
-    );
-  });
+  router.get('/edit/:id',todosController.edit);
   
   //更新
-  router.put('/update/:id', (req, res) => {
-    connection.query(
-      'UPDATE todos SET content = ? WHERE id = ?',
-      [req.body.todoContent, req.params.id],
-      (error, results) => {
-        res.redirect('/');
-      }
-    );
-  });
+  router.put('/update/:id',todosController.update);
   
   //削除
-  router.delete('/delete/:id', (req, res) => {
-    connection.query(
-      'DELETE FROM todos WHERE id = ?',
-      [req.params.id],
-      (error, results) => {
-        res.redirect('/');
-      }
-    );
-  });
+  router.delete('/delete/:id',todosController.delete);
   
   //done
-  router.put('/done/:id', (req, res) => {
-    connection.query(
-      'UPDATE todos SET done =1 WHERE id = ?',
-      [req.params.id],
-      (error, results) => {
-        res.redirect('/');
-      }
-    );
-  });
+  router.put('/done/:id', todosController.done);
 
   module.exports = router;
