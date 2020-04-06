@@ -7,9 +7,9 @@
 </head>
 <body>
     <h1>カテゴリー編集画面</h1>
-    <form action="/categories/update/<%= category[0].id %> " method="POST">
+    <form action="/categories/update/<%= category.id %> " method="POST">
         <input type="hidden" name="_method" value="PUT">
-        <input type="text" name="categoryEdit" placeholder="<%= category[0].name %>">
+        <input type="text" name="categoryName" value="<%= category.name %>">
         <input type="submit" value="編集">
     </form>
 </body>
